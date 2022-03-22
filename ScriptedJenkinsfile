@@ -21,6 +21,8 @@ node("centos"){
         }
     }    
     else{
-        sh 'ANSIBLE_FORCE_COLOR=1 ansible-playbook -i ../inventory/prod/hosts.yml ../site.yml --check --diff'
+        dir('terraform'){
+            sh 'ANSIBLE_FORCE_COLOR=1 ansible-playbook -i ../inventory/prod/hosts.yml ../site.yml --check --diff'
+        }
     }
 }
