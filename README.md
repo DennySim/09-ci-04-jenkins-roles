@@ -11,7 +11,7 @@
         - Создание трех виртульных машин на базе Centos7 в облаке Яндекса
         - Генерация inventory-файла hosts.yml
         - Запуск ansible с установкой и настройкой elasticsearch, kibana, filebeat.
-        - elasticsearch, kibana, filebeat устанавливаются ввиде ролей из удаленных репозиториев
+        - elasticsearch, kibana, filebeat устанавливаются ввиде ролей из удаленных репозиториев!!!
         
 
 
