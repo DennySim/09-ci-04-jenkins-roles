@@ -14,7 +14,7 @@ resource "yandex_compute_instance" "node02" {
       image_id    = "${var.centos-7-base}"
       name        = "root-node02"
       type        = "network-nvme"
-      size        = "50"
+      size        = "20"
     }
   }
 
