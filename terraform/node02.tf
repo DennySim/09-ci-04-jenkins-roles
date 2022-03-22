@@ -24,6 +24,6 @@ resource "yandex_compute_instance" "node02" {
   }
 
   metadata = {
-    ssh-keys = "centos:${file("~/.ssh/id_rsa.pub")}"
+    ssh-keys = "centos:${file("~/.ssh/agent_rsa.pub")}"
   }
 }
