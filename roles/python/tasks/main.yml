@@ -1,0 +1,5 @@
+---
+# tasks file for python
+- name: install python
+  become: true
+  raw: 'yum install -y python3'

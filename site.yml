@@ -1,0 +1,17 @@
+---
+- hosts: all
+  gather_facts: false
+  roles:
+     - python
+     
+- hosts: elasticsearch
+  roles:
+     - elastic
+     
+- hosts: kibana
+  roles:
+     - kibana
+
+- hosts: filebeat
+  roles:
+     - filebeat  
