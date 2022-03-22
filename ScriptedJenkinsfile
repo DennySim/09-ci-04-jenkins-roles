@@ -1,0 +1,26 @@
+node("centos"){
+    stage("Git checkout"){
+        git branch: 'main', url: 'https://github.com/DennySim/09-ci-04-jenkins-roles'
+    }
+    if (prod_run=='true'){
+        stage("terraform infrastructure"){
+            dir('terraform'){
+                sh 'terraform init'
+                sh 'terraform apply --auto-approve'
+            }
+        }    
+        stage("Install roles"){
+            dir('terraform'){
+                sh 'ansible-galaxy install -r ../requirements.yml --roles-path ../roles'
+            }
+        }    
+        stage("Run playbook"){   
+            dir('terraform'){
+                sh 'ANSIBLE_FORCE_COLOR=1 ansible-playbook -i ../inventory/prod/hosts.yml ../site.yml'
+            }    
+        }
+    }    
+    else{
+        sh 'ANSIBLE_FORCE_COLOR=1 ansible-playbook -i ../inventory/prod/hosts.yml ../site.yml --check --diff'
+    }
+}

@@ -1,0 +1,116 @@
+Started by user admin admin
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on centos7-agent in /opt/jenkins_agent/workspace/scripted_pipeline
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Git checkout)
+[Pipeline] git
+The recommended git tool is: NONE
+No credentials specified
+Fetching changes from the remote Git repository
+Checking out Revision 8cfe8b88ec7d534b4315d554d37dabea5eb0a731 (refs/remotes/origin/main)
+Commit message: "c5"
+ > git rev-parse --resolve-git-dir /opt/jenkins_agent/workspace/scripted_pipeline/.git # timeout=10
+ > git config remote.origin.url https://github.com/DennySim/09-ci-04-jenkins-roles # timeout=10
+Fetching upstream changes from https://github.com/DennySim/09-ci-04-jenkins-roles
+ > git --version # timeout=10
+ > git --version # 'git version 1.8.3.1'
+ > git fetch --tags --progress https://github.com/DennySim/09-ci-04-jenkins-roles +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 8cfe8b88ec7d534b4315d554d37dabea5eb0a731 # timeout=10
+ > git branch -a -v --no-abbrev # timeout=10
+ > git branch -D main # timeout=10
+ > git checkout -b main 8cfe8b88ec7d534b4315d554d37dabea5eb0a731 # timeout=10
+ > git rev-list --no-walk 8cfe8b88ec7d534b4315d554d37dabea5eb0a731 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] dir
+Running in /opt/jenkins_agent/workspace/scripted_pipeline/terraform
+[Pipeline] {
+[Pipeline] sh
++ ANSIBLE_FORCE_COLOR=1
++ ansible-playbook -i ../inventory/prod/hosts.yml ../site.yml --check --diff
+
+PLAY [all] *********************************************************************
+
+TASK [python : install python] *************************************************
+[0;36mskipping: [node01.netology.yc][0m
+[0;36mskipping: [node02.netology.yc][0m
+[0;36mskipping: [node03.netology.yc][0m
+
+PLAY [elasticsearch] ***********************************************************
+
+TASK [Gathering Facts] *********************************************************
+[0;32mok: [node01.netology.yc][0m
+
+TASK [elastic : Fail if unsupported system detected] ***************************
+[0;36mskipping: [node01.netology.yc][0m
+
+TASK [elastic : Check files directory exists] **********************************
+[0;32mok: [node01.netology.yc -> localhost][0m
+
+TASK [elastic : include_tasks] *************************************************
+[0;36mincluded: /opt/jenkins_agent/workspace/scripted_pipeline/roles/elastic/tasks/download_yum.yml for node01.netology.yc[0m
+
+TASK [elastic : Download Elasticsearch's rpm] **********************************
+[0;32mok: [node01.netology.yc -> localhost][0m
+
+TASK [elastic : Copy Elasticsearch to managed node] ****************************
+[0;32mok: [node01.netology.yc][0m
+
+TASK [elastic : include_tasks] *************************************************
+[0;36mincluded: /opt/jenkins_agent/workspace/scripted_pipeline/roles/elastic/tasks/install_yum.yml for node01.netology.yc[0m
+
+TASK [elastic : Install Elasticsearch] *****************************************
+[0;32mok: [node01.netology.yc][0m
+
+TASK [elastic : Configure Elasticsearch] ***************************************
+[0;32mok: [node01.netology.yc][0m
+
+PLAY [kibana] ******************************************************************
+
+TASK [Gathering Facts] *********************************************************
+[0;32mok: [node02.netology.yc][0m
+
+TASK [kibana : Download Kibanas's rpm] *****************************************
+[0;32mok: [node02.netology.yc][0m
+
+TASK [kibana : Install Kibana] *************************************************
+[0;32mok: [node02.netology.yc][0m
+
+TASK [kibana : Configure Kibana] ***********************************************
+[0;32mok: [node02.netology.yc][0m
+
+PLAY [filebeat] ****************************************************************
+
+TASK [Gathering Facts] *********************************************************
+[0;32mok: [node03.netology.yc][0m
+
+TASK [filebeat : Download Filebeat's rpm] **************************************
+[0;32mok: [node03.netology.yc][0m
+
+TASK [filebeat : Install filebeat] *********************************************
+[0;32mok: [node03.netology.yc][0m
+
+TASK [filebeat : Configure Filebeat] *******************************************
+[0;32mok: [node03.netology.yc][0m
+
+TASK [filebeat : Set filebeat systemwork] **************************************
+[0;36mskipping: [node03.netology.yc][0m
+
+TASK [filebeat : Load Kibana dashboard] ****************************************
+[0;36mskipping: [node03.netology.yc][0m
+
+PLAY RECAP *********************************************************************
+[0;32mnode01.netology.yc[0m         : [0;32mok=8   [0m changed=0    unreachable=0    failed=0    [0;36mskipped=2   [0m rescued=0    ignored=0   
+[0;32mnode02.netology.yc[0m         : [0;32mok=4   [0m changed=0    unreachable=0    failed=0    [0;36mskipped=1   [0m rescued=0    ignored=0   
+[0;32mnode03.netology.yc[0m         : [0;32mok=4   [0m changed=0    unreachable=0    failed=0    [0;36mskipped=3   [0m rescued=0    ignored=0   
+
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS

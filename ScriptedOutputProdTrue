@@ -1,0 +1,463 @@
+Started by user admin admin
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on centos7-agent in /opt/jenkins_agent/workspace/scripted_pipeline
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Git checkout)
+[Pipeline] git
+The recommended git tool is: NONE
+No credentials specified
+Fetching changes from the remote Git repository
+Checking out Revision 8cfe8b88ec7d534b4315d554d37dabea5eb0a731 (refs/remotes/origin/main)
+Commit message: "c5"
+ > git rev-parse --resolve-git-dir /opt/jenkins_agent/workspace/scripted_pipeline/.git # timeout=10
+ > git config remote.origin.url https://github.com/DennySim/09-ci-04-jenkins-roles # timeout=10
+Fetching upstream changes from https://github.com/DennySim/09-ci-04-jenkins-roles
+ > git --version # timeout=10
+ > git --version # 'git version 1.8.3.1'
+ > git fetch --tags --progress https://github.com/DennySim/09-ci-04-jenkins-roles +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 8cfe8b88ec7d534b4315d554d37dabea5eb0a731 # timeout=10
+ > git branch -a -v --no-abbrev # timeout=10
+ > git branch -D main # timeout=10
+ > git checkout -b main 8cfe8b88ec7d534b4315d554d37dabea5eb0a731 # timeout=10
+ > git rev-list --no-walk 8cfe8b88ec7d534b4315d554d37dabea5eb0a731 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (terraform infrastructure)
+[Pipeline] dir
+Running in /opt/jenkins_agent/workspace/scripted_pipeline/terraform
+[Pipeline] {
+[Pipeline] sh
++ terraform init
+
+[0m[1mInitializing the backend...[0m
+
+[0m[1mInitializing provider plugins...[0m
+- Reusing previous version of hashicorp/local from the dependency lock file
+- Reusing previous version of hashicorp/null from the dependency lock file
+- Reusing previous version of yandex-cloud/yandex from the dependency lock file
+- Using previously-installed hashicorp/local v2.1.0
+- Using previously-installed hashicorp/null v3.1.0
+- Using previously-installed yandex-cloud/yandex v0.71.0
+
+[0m[1m[32mTerraform has been successfully initialized![0m[32m[0m
+[0m[32m
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.[0m
+[Pipeline] sh
++ terraform apply --auto-approve
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create
+[0m
+Terraform will perform the following actions:
+
+[1m  # local_file.inventory[0m will be created[0m[0m
+[0m  [32m+[0m[0m resource "local_file" "inventory" {
+      [32m+[0m [0m[1m[0mcontent[0m[0m              = (known after apply)
+      [32m+[0m [0m[1m[0mdirectory_permission[0m[0m = "0777"
+      [32m+[0m [0m[1m[0mfile_permission[0m[0m      = "0777"
+      [32m+[0m [0m[1m[0mfilename[0m[0m             = "../inventory/prod/hosts.yml"
+      [32m+[0m [0m[1m[0mid[0m[0m                   = (known after apply)
+    }
+
+[1m  # null_resource.wait[0m will be created[0m[0m
+[0m  [32m+[0m[0m resource "null_resource" "wait" {
+      [32m+[0m [0m[1m[0mid[0m[0m = (known after apply)
+    }
+
+[1m  # yandex_compute_instance.node01[0m will be created[0m[0m
+[0m  [32m+[0m[0m resource "yandex_compute_instance" "node01" {
+      [32m+[0m [0m[1m[0mallow_stopping_for_update[0m[0m = true
+      [32m+[0m [0m[1m[0mcreated_at[0m[0m                = (known after apply)
+      [32m+[0m [0m[1m[0mfolder_id[0m[0m                 = (known after apply)
+      [32m+[0m [0m[1m[0mfqdn[0m[0m                      = (known after apply)
+      [32m+[0m [0m[1m[0mhostname[0m[0m                  = "node01.netology.cloud"
+      [32m+[0m [0m[1m[0mid[0m[0m                        = (known after apply)
+      [32m+[0m [0m[1m[0mmetadata[0m[0m                  = {
+          [32m+[0m [0m"ssh-keys" = <<-EOT
+                jenkins:ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDR82aK3aOMeRe/3mewL+aRv8wscyXMIFk4ugisjZlbkjt1nMftSH4oS53fDTFrtJ5zPzwLrM+cqsOR05ryB8jMy+a8wIGLRyi/grXk63JBaUtadw7NWABNCHP5SVLqhg/UVfKM0TS7LMgH4QaJIw9I0ubI0Kb39q2zuBND2K/YYEVCiAttPhv5YikeFw9hztQobvzENjU+d9alOdcGI1Zz4b39Fq862JHtU+wL9c+JCO3hfusWNCsztRi0H2X8bi67zz7PRd4bqrSMEtJfqySFSq1zcdbuQXPeucR+vcnPWPfhDy8bNE51UFQhPRJKoCWs3yH1CWlY0qEn6kCDMG9F jenkins@jenkins-agent-01.netology.cloud
+            EOT
+        }
+      [32m+[0m [0m[1m[0mname[0m[0m                      = "node01"
+      [32m+[0m [0m[1m[0mnetwork_acceleration_type[0m[0m = "standard"
+      [32m+[0m [0m[1m[0mplatform_id[0m[0m               = "standard-v1"
+      [32m+[0m [0m[1m[0mservice_account_id[0m[0m        = (known after apply)
+      [32m+[0m [0m[1m[0mstatus[0m[0m                    = (known after apply)
+      [32m+[0m [0m[1m[0mzone[0m[0m                      = "ru-central1-a"
+
+      [32m+[0m [0mboot_disk {
+          [32m+[0m [0m[1m[0mauto_delete[0m[0m = true
+          [32m+[0m [0m[1m[0mdevice_name[0m[0m = (known after apply)
+          [32m+[0m [0m[1m[0mdisk_id[0m[0m     = (known after apply)
+          [32m+[0m [0m[1m[0mmode[0m[0m        = (known after apply)
+
+          [32m+[0m [0minitialize_params {
+              [32m+[0m [0m[1m[0mblock_size[0m[0m  = (known after apply)
+              [32m+[0m [0m[1m[0mdescription[0m[0m = (known after apply)
+              [32m+[0m [0m[1m[0mimage_id[0m[0m    = "fd8lvs2sp7d4hp3sedge"
+              [32m+[0m [0m[1m[0mname[0m[0m        = "root-node01"
+              [32m+[0m [0m[1m[0msize[0m[0m        = 20
+              [32m+[0m [0m[1m[0msnapshot_id[0m[0m = (known after apply)
+              [32m+[0m [0m[1m[0mtype[0m[0m        = "network-nvme"
+            }
+        }
+
+      [32m+[0m [0mnetwork_interface {
+          [32m+[0m [0m[1m[0mindex[0m[0m              = (known after apply)
+          [32m+[0m [0m[1m[0mip_address[0m[0m         = (known after apply)
+          [32m+[0m [0m[1m[0mipv4[0m[0m               = true
+          [32m+[0m [0m[1m[0mipv6[0m[0m               = (known after apply)
+          [32m+[0m [0m[1m[0mipv6_address[0m[0m       = (known after apply)
+          [32m+[0m [0m[1m[0mmac_address[0m[0m        = (known after apply)
+          [32m+[0m [0m[1m[0mnat[0m[0m                = true
+          [32m+[0m [0m[1m[0mnat_ip_address[0m[0m     = (known after apply)
+          [32m+[0m [0m[1m[0mnat_ip_version[0m[0m     = (known after apply)
+          [32m+[0m [0m[1m[0msecurity_group_ids[0m[0m = (known after apply)
+          [32m+[0m [0m[1m[0msubnet_id[0m[0m          = (known after apply)
+        }
+
+      [32m+[0m [0mplacement_policy {
+          [32m+[0m [0m[1m[0mplacement_group_id[0m[0m = (known after apply)
+        }
+
+      [32m+[0m [0mresources {
+          [32m+[0m [0m[1m[0mcore_fraction[0m[0m = 100
+          [32m+[0m [0m[1m[0mcores[0m[0m         = 4
+          [32m+[0m [0m[1m[0mmemory[0m[0m        = 8
+        }
+
+      [32m+[0m [0mscheduling_policy {
+          [32m+[0m [0m[1m[0mpreemptible[0m[0m = (known after apply)
+        }
+    }
+
+[1m  # yandex_compute_instance.node02[0m will be created[0m[0m
+[0m  [32m+[0m[0m resource "yandex_compute_instance" "node02" {
+      [32m+[0m [0m[1m[0mallow_stopping_for_update[0m[0m = true
+      [32m+[0m [0m[1m[0mcreated_at[0m[0m                = (known after apply)
+      [32m+[0m [0m[1m[0mfolder_id[0m[0m                 = (known after apply)
+      [32m+[0m [0m[1m[0mfqdn[0m[0m                      = (known after apply)
+      [32m+[0m [0m[1m[0mhostname[0m[0m                  = "node02.netology.cloud"
+      [32m+[0m [0m[1m[0mid[0m[0m                        = (known after apply)
+      [32m+[0m [0m[1m[0mmetadata[0m[0m                  = {
+          [32m+[0m [0m"ssh-keys" = <<-EOT
+                jenkins:ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDR82aK3aOMeRe/3mewL+aRv8wscyXMIFk4ugisjZlbkjt1nMftSH4oS53fDTFrtJ5zPzwLrM+cqsOR05ryB8jMy+a8wIGLRyi/grXk63JBaUtadw7NWABNCHP5SVLqhg/UVfKM0TS7LMgH4QaJIw9I0ubI0Kb39q2zuBND2K/YYEVCiAttPhv5YikeFw9hztQobvzENjU+d9alOdcGI1Zz4b39Fq862JHtU+wL9c+JCO3hfusWNCsztRi0H2X8bi67zz7PRd4bqrSMEtJfqySFSq1zcdbuQXPeucR+vcnPWPfhDy8bNE51UFQhPRJKoCWs3yH1CWlY0qEn6kCDMG9F jenkins@jenkins-agent-01.netology.cloud
+            EOT
+        }
+      [32m+[0m [0m[1m[0mname[0m[0m                      = "node02"
+      [32m+[0m [0m[1m[0mnetwork_acceleration_type[0m[0m = "standard"
+      [32m+[0m [0m[1m[0mplatform_id[0m[0m               = "standard-v1"
+      [32m+[0m [0m[1m[0mservice_account_id[0m[0m        = (known after apply)
+      [32m+[0m [0m[1m[0mstatus[0m[0m                    = (known after apply)
+      [32m+[0m [0m[1m[0mzone[0m[0m                      = "ru-central1-a"
+
+      [32m+[0m [0mboot_disk {
+          [32m+[0m [0m[1m[0mauto_delete[0m[0m = true
+          [32m+[0m [0m[1m[0mdevice_name[0m[0m = (known after apply)
+          [32m+[0m [0m[1m[0mdisk_id[0m[0m     = (known after apply)
+          [32m+[0m [0m[1m[0mmode[0m[0m        = (known after apply)
+
+          [32m+[0m [0minitialize_params {
+              [32m+[0m [0m[1m[0mblock_size[0m[0m  = (known after apply)
+              [32m+[0m [0m[1m[0mdescription[0m[0m = (known after apply)
+              [32m+[0m [0m[1m[0mimage_id[0m[0m    = "fd8lvs2sp7d4hp3sedge"
+              [32m+[0m [0m[1m[0mname[0m[0m        = "root-node02"
+              [32m+[0m [0m[1m[0msize[0m[0m        = 20
+              [32m+[0m [0m[1m[0msnapshot_id[0m[0m = (known after apply)
+              [32m+[0m [0m[1m[0mtype[0m[0m        = "network-nvme"
+            }
+        }
+
+      [32m+[0m [0mnetwork_interface {
+          [32m+[0m [0m[1m[0mindex[0m[0m              = (known after apply)
+          [32m+[0m [0m[1m[0mip_address[0m[0m         = (known after apply)
+          [32m+[0m [0m[1m[0mipv4[0m[0m               = true
+          [32m+[0m [0m[1m[0mipv6[0m[0m               = (known after apply)
+          [32m+[0m [0m[1m[0mipv6_address[0m[0m       = (known after apply)
+          [32m+[0m [0m[1m[0mmac_address[0m[0m        = (known after apply)
+          [32m+[0m [0m[1m[0mnat[0m[0m                = true
+          [32m+[0m [0m[1m[0mnat_ip_address[0m[0m     = (known after apply)
+          [32m+[0m [0m[1m[0mnat_ip_version[0m[0m     = (known after apply)
+          [32m+[0m [0m[1m[0msecurity_group_ids[0m[0m = (known after apply)
+          [32m+[0m [0m[1m[0msubnet_id[0m[0m          = (known after apply)
+        }
+
+      [32m+[0m [0mplacement_policy {
+          [32m+[0m [0m[1m[0mplacement_group_id[0m[0m = (known after apply)
+        }
+
+      [32m+[0m [0mresources {
+          [32m+[0m [0m[1m[0mcore_fraction[0m[0m = 100
+          [32m+[0m [0m[1m[0mcores[0m[0m         = 4
+          [32m+[0m [0m[1m[0mmemory[0m[0m        = 8
+        }
+
+      [32m+[0m [0mscheduling_policy {
+          [32m+[0m [0m[1m[0mpreemptible[0m[0m = (known after apply)
+        }
+    }
+
+[1m  # yandex_compute_instance.node03[0m will be created[0m[0m
+[0m  [32m+[0m[0m resource "yandex_compute_instance" "node03" {
+      [32m+[0m [0m[1m[0mallow_stopping_for_update[0m[0m = true
+      [32m+[0m [0m[1m[0mcreated_at[0m[0m                = (known after apply)
+      [32m+[0m [0m[1m[0mfolder_id[0m[0m                 = (known after apply)
+      [32m+[0m [0m[1m[0mfqdn[0m[0m                      = (known after apply)
+      [32m+[0m [0m[1m[0mhostname[0m[0m                  = "node03.netology.cloud"
+      [32m+[0m [0m[1m[0mid[0m[0m                        = (known after apply)
+      [32m+[0m [0m[1m[0mmetadata[0m[0m                  = {
+          [32m+[0m [0m"ssh-keys" = <<-EOT
+                jenkins:ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDR82aK3aOMeRe/3mewL+aRv8wscyXMIFk4ugisjZlbkjt1nMftSH4oS53fDTFrtJ5zPzwLrM+cqsOR05ryB8jMy+a8wIGLRyi/grXk63JBaUtadw7NWABNCHP5SVLqhg/UVfKM0TS7LMgH4QaJIw9I0ubI0Kb39q2zuBND2K/YYEVCiAttPhv5YikeFw9hztQobvzENjU+d9alOdcGI1Zz4b39Fq862JHtU+wL9c+JCO3hfusWNCsztRi0H2X8bi67zz7PRd4bqrSMEtJfqySFSq1zcdbuQXPeucR+vcnPWPfhDy8bNE51UFQhPRJKoCWs3yH1CWlY0qEn6kCDMG9F jenkins@jenkins-agent-01.netology.cloud
+            EOT
+        }
+      [32m+[0m [0m[1m[0mname[0m[0m                      = "node03"
+      [32m+[0m [0m[1m[0mnetwork_acceleration_type[0m[0m = "standard"
+      [32m+[0m [0m[1m[0mplatform_id[0m[0m               = "standard-v1"
+      [32m+[0m [0m[1m[0mservice_account_id[0m[0m        = (known after apply)
+      [32m+[0m [0m[1m[0mstatus[0m[0m                    = (known after apply)
+      [32m+[0m [0m[1m[0mzone[0m[0m                      = "ru-central1-a"
+
+      [32m+[0m [0mboot_disk {
+          [32m+[0m [0m[1m[0mauto_delete[0m[0m = true
+          [32m+[0m [0m[1m[0mdevice_name[0m[0m = (known after apply)
+          [32m+[0m [0m[1m[0mdisk_id[0m[0m     = (known after apply)
+          [32m+[0m [0m[1m[0mmode[0m[0m        = (known after apply)
+
+          [32m+[0m [0minitialize_params {
+              [32m+[0m [0m[1m[0mblock_size[0m[0m  = (known after apply)
+              [32m+[0m [0m[1m[0mdescription[0m[0m = (known after apply)
+              [32m+[0m [0m[1m[0mimage_id[0m[0m    = "fd8lvs2sp7d4hp3sedge"
+              [32m+[0m [0m[1m[0mname[0m[0m        = "root-node03"
+              [32m+[0m [0m[1m[0msize[0m[0m        = 20
+              [32m+[0m [0m[1m[0msnapshot_id[0m[0m = (known after apply)
+              [32m+[0m [0m[1m[0mtype[0m[0m        = "network-nvme"
+            }
+        }
+
+      [32m+[0m [0mnetwork_interface {
+          [32m+[0m [0m[1m[0mindex[0m[0m              = (known after apply)
+          [32m+[0m [0m[1m[0mip_address[0m[0m         = (known after apply)
+          [32m+[0m [0m[1m[0mipv4[0m[0m               = true
+          [32m+[0m [0m[1m[0mipv6[0m[0m               = (known after apply)
+          [32m+[0m [0m[1m[0mipv6_address[0m[0m       = (known after apply)
+          [32m+[0m [0m[1m[0mmac_address[0m[0m        = (known after apply)
+          [32m+[0m [0m[1m[0mnat[0m[0m                = true
+          [32m+[0m [0m[1m[0mnat_ip_address[0m[0m     = (known after apply)
+          [32m+[0m [0m[1m[0mnat_ip_version[0m[0m     = (known after apply)
+          [32m+[0m [0m[1m[0msecurity_group_ids[0m[0m = (known after apply)
+          [32m+[0m [0m[1m[0msubnet_id[0m[0m          = (known after apply)
+        }
+
+      [32m+[0m [0mplacement_policy {
+          [32m+[0m [0m[1m[0mplacement_group_id[0m[0m = (known after apply)
+        }
+
+      [32m+[0m [0mresources {
+          [32m+[0m [0m[1m[0mcore_fraction[0m[0m = 100
+          [32m+[0m [0m[1m[0mcores[0m[0m         = 4
+          [32m+[0m [0m[1m[0mmemory[0m[0m        = 8
+        }
+
+      [32m+[0m [0mscheduling_policy {
+          [32m+[0m [0m[1m[0mpreemptible[0m[0m = (known after apply)
+        }
+    }
+
+[1m  # yandex_vpc_subnet.default[0m will be created[0m[0m
+[0m  [32m+[0m[0m resource "yandex_vpc_subnet" "default" {
+      [32m+[0m [0m[1m[0mcreated_at[0m[0m     = (known after apply)
+      [32m+[0m [0m[1m[0mfolder_id[0m[0m      = (known after apply)
+      [32m+[0m [0m[1m[0mid[0m[0m             = (known after apply)
+      [32m+[0m [0m[1m[0mlabels[0m[0m         = (known after apply)
+      [32m+[0m [0m[1m[0mname[0m[0m           = "subnet_102"
+      [32m+[0m [0m[1m[0mnetwork_id[0m[0m     = "enpiib89to3i2kpb9de2"
+      [32m+[0m [0m[1m[0mv4_cidr_blocks[0m[0m = [
+          [32m+[0m [0m"192.168.102.0/24",
+        ]
+      [32m+[0m [0m[1m[0mv6_cidr_blocks[0m[0m = (known after apply)
+      [32m+[0m [0m[1m[0mzone[0m[0m           = "ru-central1-a"
+    }
+
+[0m[1mPlan:[0m 6 to add, 0 to change, 0 to destroy.
+[0m[0m
+[1mChanges to Outputs:[0m[0m
+  [32m+[0m [0m[1m[0mexternal_ip_address_node01_yandex_cloud[0m[0m = (known after apply)
+  [32m+[0m [0m[1m[0mexternal_ip_address_node02_yandex_cloud[0m[0m = (known after apply)
+  [32m+[0m [0m[1m[0mexternal_ip_address_node03_yandex_cloud[0m[0m = (known after apply)
+  [32m+[0m [0m[1m[0minternal_ip_address_node01_yandex_cloud[0m[0m = (known after apply)
+  [32m+[0m [0m[1m[0minternal_ip_address_node02_yandex_cloud[0m[0m = (known after apply)
+  [32m+[0m [0m[1m[0minternal_ip_address_node03_yandex_cloud[0m[0m = (known after apply)
+[0m[1myandex_vpc_subnet.default: Creating...[0m[0m
+[0m[1myandex_vpc_subnet.default: Creation complete after 1s [id=e9boqiittl77efa3t4h2][0m
+[0m[1myandex_compute_instance.node01: Creating...[0m[0m
+[0m[1myandex_compute_instance.node02: Creating...[0m[0m
+[0m[1myandex_compute_instance.node03: Creating...[0m[0m
+[0m[1myandex_compute_instance.node01: Still creating... [10s elapsed][0m[0m
+[0m[1myandex_compute_instance.node02: Still creating... [10s elapsed][0m[0m
+[0m[1myandex_compute_instance.node03: Still creating... [10s elapsed][0m[0m
+[0m[1myandex_compute_instance.node01: Still creating... [20s elapsed][0m[0m
+[0m[1myandex_compute_instance.node02: Still creating... [20s elapsed][0m[0m
+[0m[1myandex_compute_instance.node03: Still creating... [20s elapsed][0m[0m
+[0m[1myandex_compute_instance.node01: Still creating... [30s elapsed][0m[0m
+[0m[1myandex_compute_instance.node02: Still creating... [30s elapsed][0m[0m
+[0m[1myandex_compute_instance.node03: Still creating... [30s elapsed][0m[0m
+[0m[1myandex_compute_instance.node02: Creation complete after 34s [id=fhmqdkfvp6td9lvhcdv9][0m
+[0m[1myandex_compute_instance.node01: Still creating... [40s elapsed][0m[0m
+[0m[1myandex_compute_instance.node03: Still creating... [40s elapsed][0m[0m
+[0m[1myandex_compute_instance.node03: Creation complete after 44s [id=fhmn59oc8a7jb0sk8bes][0m
+[0m[1myandex_compute_instance.node01: Creation complete after 46s [id=fhmete8qdg4p69ued0gj][0m
+[0m[1mlocal_file.inventory: Creating...[0m[0m
+[0m[1mlocal_file.inventory: Creation complete after 0s [id=c75d12c25c71af337c8e2d115c43a2fb14fdbda1][0m
+[0m[1mnull_resource.wait: Creating...[0m[0m
+[0m[1mnull_resource.wait: Provisioning with 'local-exec'...[0m[0m
+[0m[1mnull_resource.wait (local-exec):[0m [0mExecuting: ["/bin/sh" "-c" "sleep 50"]
+[0m[1mnull_resource.wait: Still creating... [10s elapsed][0m[0m
+[0m[1mnull_resource.wait: Still creating... [20s elapsed][0m[0m
+[0m[1mnull_resource.wait: Still creating... [30s elapsed][0m[0m
+[0m[1mnull_resource.wait: Still creating... [40s elapsed][0m[0m
+[0m[1mnull_resource.wait: Still creating... [50s elapsed][0m[0m
+[0m[1mnull_resource.wait: Creation complete after 50s [id=1428889380280458495][0m
+[0m[1m[32m
+Apply complete! Resources: 6 added, 0 changed, 0 destroyed.
+[0m[0m[1m[32m
+Outputs:
+
+[0mexternal_ip_address_node01_yandex_cloud = "51.250.69.46"
+external_ip_address_node02_yandex_cloud = "51.250.64.56"
+external_ip_address_node03_yandex_cloud = "51.250.66.178"
+internal_ip_address_node01_yandex_cloud = "192.168.102.17"
+internal_ip_address_node02_yandex_cloud = "192.168.102.9"
+internal_ip_address_node03_yandex_cloud = "192.168.102.9"
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Install roles)
+[Pipeline] dir
+Running in /opt/jenkins_agent/workspace/scripted_pipeline/terraform
+[Pipeline] {
+[Pipeline] sh
++ ansible-galaxy install -r ../requirements.yml --roles-path ../roles
+Starting galaxy role install process
+- elastic (2.1.4) is already installed, skipping.
+- kibana (2.3.2) is already installed, skipping.
+- filebeat (1.2.5) is already installed, skipping.
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Run playbook)
+[Pipeline] dir
+Running in /opt/jenkins_agent/workspace/scripted_pipeline/terraform
+[Pipeline] {
+[Pipeline] sh
++ ANSIBLE_FORCE_COLOR=1
++ ansible-playbook -i ../inventory/prod/hosts.yml ../site.yml
+
+PLAY [all] *********************************************************************
+
+TASK [python : install python] *************************************************
+[0;33mchanged: [node03.netology.yc][0m
+[0;33mchanged: [node02.netology.yc][0m
+[0;33mchanged: [node01.netology.yc][0m
+
+PLAY [elasticsearch] ***********************************************************
+
+TASK [Gathering Facts] *********************************************************
+[0;32mok: [node01.netology.yc][0m
+
+TASK [elastic : Fail if unsupported system detected] ***************************
+[0;36mskipping: [node01.netology.yc][0m
+
+TASK [elastic : Check files directory exists] **********************************
+[0;32mok: [node01.netology.yc -> localhost][0m
+
+TASK [elastic : include_tasks] *************************************************
+[0;36mincluded: /opt/jenkins_agent/workspace/scripted_pipeline/roles/elastic/tasks/download_yum.yml for node01.netology.yc[0m
+
+TASK [elastic : Download Elasticsearch's rpm] **********************************
+[0;32mok: [node01.netology.yc -> localhost][0m
+
+TASK [elastic : Copy Elasticsearch to managed node] ****************************
+[0;33mchanged: [node01.netology.yc][0m
+
+TASK [elastic : include_tasks] *************************************************
+[0;36mincluded: /opt/jenkins_agent/workspace/scripted_pipeline/roles/elastic/tasks/install_yum.yml for node01.netology.yc[0m
+
+TASK [elastic : Install Elasticsearch] *****************************************
+[0;33mchanged: [node01.netology.yc][0m
+
+TASK [elastic : Configure Elasticsearch] ***************************************
+[0;33mchanged: [node01.netology.yc][0m
+
+RUNNING HANDLER [elastic : restart Elasticsearch] ******************************
+[0;33mchanged: [node01.netology.yc][0m
+
+PLAY [kibana] ******************************************************************
+
+TASK [Gathering Facts] *********************************************************
+[0;32mok: [node02.netology.yc][0m
+
+TASK [kibana : Download Kibanas's rpm] *****************************************
+[0;33mchanged: [node02.netology.yc][0m
+
+TASK [kibana : Install Kibana] *************************************************
+[0;33mchanged: [node02.netology.yc][0m
+
+TASK [kibana : Configure Kibana] ***********************************************
+[0;33mchanged: [node02.netology.yc][0m
+
+RUNNING HANDLER [kibana : restart Kibana] **************************************
+[0;33mchanged: [node02.netology.yc][0m
+
+PLAY [filebeat] ****************************************************************
+
+TASK [Gathering Facts] *********************************************************
+[0;32mok: [node03.netology.yc][0m
+
+TASK [filebeat : Download Filebeat's rpm] **************************************
+[0;33mchanged: [node03.netology.yc][0m
+
+TASK [filebeat : Install filebeat] *********************************************
+[0;33mchanged: [node03.netology.yc][0m
+
+TASK [filebeat : Configure Filebeat] *******************************************
+[0;33mchanged: [node03.netology.yc][0m
+
+TASK [filebeat : Set filebeat systemwork] **************************************
+[0;33mchanged: [node03.netology.yc][0m
+
+TASK [filebeat : Load Kibana dashboard] ****************************************
+[1;30mFAILED - RETRYING: Load Kibana dashboard (3 retries left).[0m
+[1;30mFAILED - RETRYING: Load Kibana dashboard (2 retries left).[0m
+[0;32mok: [node03.netology.yc][0m
+
+RUNNING HANDLER [filebeat : restart Filebeat] **********************************
+[0;33mchanged: [node03.netology.yc][0m
+
+PLAY RECAP *********************************************************************
+[0;33mnode01.netology.yc[0m         : [0;32mok=10  [0m [0;33mchanged=5   [0m unreachable=0    failed=0    [0;36mskipped=1   [0m rescued=0    ignored=0   
+[0;33mnode02.netology.yc[0m         : [0;32mok=6   [0m [0;33mchanged=5   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+[0;33mnode03.netology.yc[0m         : [0;32mok=8   [0m [0;33mchanged=6   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
